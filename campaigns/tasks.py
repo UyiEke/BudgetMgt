@@ -23,3 +23,15 @@ def enforce_budget_limits() -> None:
             if not campaign.is_active:
                 campaign.is_active = True
                 campaign.save()
+
+
+@shared_task
+def reset_daily_spends() -> None:
+    for spend in Spend.objects.all():
+        spend.reset_daily()
+
+
+@shared_task
+def reset_monthly_spends() -> None:
+    for spend in Spend.objects.all():
+        spend.reset_monthly()
